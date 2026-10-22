@@ -1,0 +1,14 @@
+MATHCLOUD MATH QUIZ - FINAL TOUCHES
+
+Files added:
+- quiz-admin.html: administrator login + existing admin dashboard.
+- admin-auth.js: Firebase Authentication login and UID allowlist verification at access/admins/{uid}.
+- admin-setup.html: one-time first administrator setup. Delete it from deployment after setup.
+- database.rules.secure-template.json: stricter starting rules, NOT a drop-in replacement for the current passcode-only student client.
+
+IMPORTANT SECURITY/COMPATIBILITY
+The current student quiz client reads/writes mathQuiz data without signing in through Firebase Authentication. It is therefore impossible to both keep that exact client unchanged and securely deny unauthenticated database access. The existing database.rules.json still has public read/write permissions. Do NOT treat it as secure or deploy a public site with it. The secure template will block the current student app until student login is migrated to Firebase Authentication and the device-lock logic is implemented against authenticated UIDs. Do not deploy the secure template blindly before that migration, or existing student functions will stop working.
+
+Admin setup requires Firebase Authentication Email/Password provider enabled. The first-admin self-claim rule in the secure template is a bootstrap pattern; protect the setup window and remove admin-setup.html immediately after first successful setup. Existing admin HTML was hidden under an unusual filename in the supplied ZIP; it is now available as quiz-admin.html.
+
+The supplied archive did not contain a working admin authentication system or device lock implementation. No claim is made that one-device enforcement, speech recognition upgrades, or automatic avatar speech have been implemented in this package; these require coordinated changes to quiz.js and database rules, and browser speech autoplay is restricted until the user interacts with the page on many browsers.

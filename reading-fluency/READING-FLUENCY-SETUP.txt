@@ -1,0 +1,11 @@
+READING FLUENCY FINAL SETUP
+
+Admin login: admin.html
+One-time administrator creation: admin-setup.html
+
+1. In Firebase Authentication enable Email/Password.
+2. Deploy database.rules.json to Realtime Database only after merging with rules for any other apps already using this database. This app uses readingFluency/; do not reuse spelling/ or mathQuiz/ data paths.
+3. Open admin-setup.html once to create the first admin, then remove admin-setup.html and admin-setup.js from the deployed hosting.
+4. Admin management files are adapted from the provided spelling app's management/login flow. Review the management script against the current page's data model before production use.
+5. Important: current student login uses a passcode stored in Realtime Database. A secure one-device policy cannot be enforced against unauthenticated users by client-side code alone. For robust enforcement, each student needs Firebase Authentication and a trusted device-session claim/transaction protected by rules or a trusted server. Admin can lock/unlock student accounts in the management UI, but this is not a substitute for authenticated single-device enforcement.
+6. Speech recognition relies on browser Web Speech API (usually Chrome/Edge on HTTPS). No browser can guarantee recognition of every voice/accent. Microphone permission must be granted by the student.

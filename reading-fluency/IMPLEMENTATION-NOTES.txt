@@ -1,0 +1,48 @@
+MathCloud Learning Studio — updated build
+=========================================
+
+Changes in this build
+- Added a new photorealistic MathCloud human guide portrait (mathcloud-human-guide.png).
+- Updated the index page hero with the guide, spoken welcome, guided tour animation, typed Q&A, and optional voice Q&A.
+- Added explicit microphone permission on the index page, with an audio-input level check and clear permission/error messaging.
+- Reused the same human guide on the reading dashboard and floating coach panel.
+- Improved reading microphone and speech-recognition error messages.
+- Expanded SEO/social metadata for the home page.
+
+Important runtime notes
+- Microphone permission must be granted by the visitor through a browser prompt; websites cannot silently authorise it.
+- Microphone access and Web Speech API recognition require a secure context (HTTPS, or localhost for local testing). SpeechRecognition support and language quality vary by browser and network.
+- The home-page question assistant uses a small intent-based FAQ, not a connected generative AI backend.
+- Reading results are speech-recognition estimates. Browser recognition can mishear accents or words; validate with real speakers and devices before using scores for formal assessment.
+- Firebase credentials and database rules were not changed. Confirm Firebase Realtime Database rules, published passage data, and student records in the target Firebase project before deployment.
+
+
+Female voice selection update
+- The home guide and reading coach now select a clearly identifiable English female voice, preferring voices labelled Natural/Neural/Online and common female voice names.
+- They deliberately do not silently fall back to a male/unknown voice. If the device has no identifiable female English voice, the interface explains that a natural female voice must be enabled in system/browser voice settings.
+- Important: browser SpeechSynthesis voices are supplied by the operating system/browser. A website cannot guarantee a genuinely human-quality voice across all devices without a licensed cloud TTS provider and API credentials. For a consistently natural voice, configure a neural female TTS provider and secure server-side credentials before production deployment.
+
+
+=== MATHCLOUD SERIES STANDARDS (reuse for every MathCloud app) ===
+Layout
+- Human guide avatar lives in its own grid column (desktop, sticky, full viewport height) and a fixed bottom dock on screens <900px. Page content is padded so nothing can ever overlap the avatar.
+- Avatar image: mathcloud-human-guide.png, object-fit:contain, shown in full at all times.
+Microphone / voice
+- On every page load: ask for microphone permission automatically (single prompt; browser remembers the choice), then listen continuously for spoken questions (SpeechRecognition, en-NG with en-GB fallback, 4 alternatives, auto-restart, paused while the guide speaks to avoid hearing itself). Typed questions always remain available.
+- Browsers block speech playback until the visitor interacts once, so the spoken welcome plays on the first tap/key/scroll if it cannot start immediately.
+- Voice: best available natural English female voice (Natural/Neural/Online first), never silent; sentence-by-sentence playback. Recognition is never 100% perfect; accents, noise and network affect it. For studio-quality voice, use a neural cloud TTS service with server-side keys.
+Brand
+- Logo: .mc-logo (in site.css) = logo.png inside continuously rotating circular rings. Use on every page header.
+- Favicon: logo.png + favicon.ico on every page; apple-touch-icon.
+SEO
+- Unique title (<60 chars) and description, Open Graph + Twitter tags, JSON-LD (EducationalOrganization, WebSite, FAQPage), one h1, semantic landmarks, noindex on admin/portal/login.
+- TODO when the domain is known: add <link rel="canonical">, absolute og:image/twitter:image URLs, robots.txt and sitemap.xml.
+Palette: ink #12233f, blue #155eef, cyan #45d6e8, line #e2e9f4, paper #f6f9ff. Programme fee: NGN 10,000 per programme per student per year.
+
+
+UI rendering refinement (2026-10)
+- Added a shared responsive style layer in site.css for portal/dashboard, reading session, coach panel, admin tables/forms, navigation, and public pages.
+- Improved mobile breakpoints, spacing, readable type sizes, button states, keyboard focus, reduced-motion support, and card/table overflow.
+- Preserved existing page content, Firebase configuration, passage logic, and speech recognition implementation.
+- Verified syntax of app.js, admin.js, history.js, and firebase-config.js with Node's parser.
+- Browser screenshot automation was blocked by this execution environment's browser navigation policy; test the deployed build on Chrome/Edge desktop and mobile before publishing.

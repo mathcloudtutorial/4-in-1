@@ -1,0 +1,79 @@
+{
+  "rules": {
+    ".read": false,
+    ".write": false,
+
+    "readingFluency": {
+      ".read": false,
+      ".write": false,
+
+      "access": {
+        "admins": {
+          ".read": "auth != null && root.child('readingFluency/access/admins/' + auth.uid + '/active').val() === true",
+          "$uid": {
+            ".read": "auth != null && (auth.uid === $uid || root.child('readingFluency/access/admins/' + auth.uid + '/active').val() === true)",
+            ".write": "auth != null && ((!data.parent().exists() && auth.uid === $uid && newData.child('active').val() === true) || root.child('readingFluency/access/admins/' + auth.uid + '/active').val() === true)",
+            ".validate": "newData.hasChildren(['active','name','email','createdAt']) && newData.child('active').isBoolean() && newData.child('name').isString() && newData.child('email').isString() && newData.child('createdAt').isNumber()",
+            "$other": { ".validate": false }
+          }
+        },
+        "adminProfiles": {
+          "$uid": {
+            ".read": "auth != null && (auth.uid === $uid || root.child('readingFluency/access/admins/' + auth.uid + '/active').val() === true)",
+            ".write": "auth != null && root.child('readingFluency/access/admins/' + auth.uid + '/active').val() === true"
+          }
+        }
+      },
+
+      "classes": {
+        ".read": "auth != null",
+        ".write": "auth != null && root.child('readingFluency/access/admins/' + auth.uid + '/active').val() === true"
+      },
+
+      "students": {
+        ".read": "auth != null && root.child('readingFluency/access/admins/' + auth.uid + '/active').val() === true",
+        ".write": "auth != null && root.child('readingFluency/access/admins/' + auth.uid + '/active').val() === true",
+        "$uid": {
+          ".read": "auth != null && auth.uid === $uid"
+        }
+      },
+
+      "words": {
+        ".read": "auth != null",
+        ".write": "auth != null && root.child('readingFluency/access/admins/' + auth.uid + '/active').val() === true",
+        ".indexOn": ["classId", "studentId"]
+      },
+
+      "sessions": {
+        ".read": "auth != null && (root.child('readingFluency/access/admins/' + auth.uid + '/active').val() === true || (query.orderByChild === 'studentId' && query.equalTo === auth.uid))",
+        ".indexOn": ["completedAt", "studentId"],
+        "$sid": {
+          ".read": "auth != null && data.child('studentId').val() === auth.uid",
+          ".write": "auth != null && (root.child('readingFluency/access/admins/' + auth.uid + '/active').val() === true || (!data.exists() && newData.child('studentId').val() === auth.uid))"
+        }
+      },
+
+      "deviceLocks": {
+        ".read": "auth != null && root.child('readingFluency/access/admins/' + auth.uid + '/active').val() === true",
+        ".write": "auth != null && root.child('readingFluency/access/admins/' + auth.uid + '/active').val() === true",
+        "$uid": {
+          ".read": "auth != null && auth.uid === $uid",
+          ".write": "auth != null && auth.uid === $uid && newData.exists() && (!data.exists() || data.child('unlocked').val() === true)"
+        }
+      }
+    },
+
+    "mathQuiz": {
+      ".read": false,
+      ".write": false
+    },
+    "readingComprehension": {
+      ".read": false,
+      ".write": false
+    },
+    "readingFluencyBee": {
+      ".read": false,
+      ".write": false
+    }
+  }
+}
