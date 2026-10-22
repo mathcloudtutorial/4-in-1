@@ -1,0 +1,220 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="description" content="MathCloud Reading Fluency administration: manage student passcodes, classes, reading passages, assignments and reports."><meta name="author" content="MathCloud Tutorial"><meta property="og:title" content="MathCloud Reading Fluency Admin"><meta property="og:image" content="logo.png"><meta name="robots" content="noindex,nofollow"><link rel="shortcut icon" href="favicon.ico"><meta name="theme-color" content="#155eef"><title>Reading Fluency Admin</title><link rel="icon" type="image/png" href="logo.png"><link rel="apple-touch-icon" href="logo.png"><link rel="stylesheet" href="styles.css"><link rel="stylesheet" href="site.css"><link rel="stylesheet" href="render-fix.css">
+<style>
+:root{--mc-ink:#172b4d;--mc-muted:#65758b;--mc-blue:#155eef;--mc-cyan:#13b8c9;--mc-line:#e2eaf3;--mc-bg:#f3f7fc;--mc-card:#fff;--mc-radius:18px}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:radial-gradient(ellipse at top left,#e8f3ff 0,transparent 38%),var(--mc-bg);color:var(--mc-ink);font-family:Inter,"Segoe UI",Roboto,Arial,sans-serif;line-height:1.55}
+.topbar{position:sticky;top:0;z-index:20;display:flex;align-items:center;justify-content:space-between;gap:16px;padding:13px clamp(18px,4vw,54px);background:rgba(255,255,255,.92);backdrop-filter:blur(16px);border-bottom:1px solid var(--mc-line);box-shadow:0 4px 22px rgba(28,55,90,.045)}
+.brand{display:flex;align-items:center;gap:12px;color:var(--mc-ink);text-decoration:none;font-weight:800;letter-spacing:-.3px}
+.logo-ring{width:46px;height:46px;display:grid;place-items:center;position:relative;border-radius:15px;background:linear-gradient(135deg,#155eef,#13b8c9);box-shadow:0 8px 18px #155eef2b;overflow:hidden}
+.logo-ring .ring{display:none}.logo-core{width:36px;height:36px;display:grid;place-items:center;border-radius:11px;background:#fff}
+.brand-logo{width:30px;height:30px;object-fit:contain}.brand-mark{display:none}
+.brand-name{font-size:17px;line-height:1.15}.brand-name small{display:block;margin-top:5px;font-size:10px;letter-spacing:1.6px;color:#71819a;font-weight:800}
+.pill{display:inline-flex;align-items:center;gap:7px;padding:8px 13px;border-radius:999px;background:#eef5ff;color:#155eef;font-size:12px;font-weight:800;border:1px solid #d9e8ff}
+.shell{width:min(1420px,100%);margin:0 auto;padding:clamp(20px,3vw,38px)}
+.welcome-row{display:flex;justify-content:space-between;align-items:center;gap:24px;margin:0 0 24px}
+.eyebrow{display:inline-block;color:#155eef;font-size:11px;font-weight:850;letter-spacing:1.7px;margin-bottom:7px}
+h1{font-size:clamp(28px,3vw,39px);letter-spacing:-1.3px;line-height:1.15;margin:0 0 8px;color:#132746}
+h2{font-size:20px;letter-spacing:-.45px;margin:0;color:#172b4d}
+p{margin-top:5px}.muted{color:var(--mc-muted);font-size:14px}
+.admin-actions{display:flex;gap:10px;flex-wrap:wrap}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:42px;padding:10px 16px;border-radius:11px;font:inherit;font-size:13px;font-weight:750;cursor:pointer;text-decoration:none;border:1px solid transparent;transition:transform .18s,box-shadow .18s,background .18s}
+.btn:hover{transform:translateY(-1px)}.btn.primary{color:white;background:linear-gradient(135deg,#155eef,#3478f6);box-shadow:0 7px 16px #155eef2b}.btn.primary:hover{box-shadow:0 10px 22px #155eef3d}
+.btn.ghost{background:#fff;border-color:#dce6f1;color:#344968}.btn.ghost:hover{background:#f4f8ff;border-color:#b9d0f7}
+.upload-label{cursor:pointer}
+.security-note{padding:15px 18px;margin:0 0 24px;border:1px solid #f4d9a0;border-left:4px solid #e9a23b;border-radius:13px;background:#fff9eb;color:#79531a;font-size:13px;box-shadow:0 4px 14px #5c43100a}
+.metric-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:16px;margin:0 0 25px}
+.metric{position:relative;overflow:hidden;padding:22px 23px;border:1px solid var(--mc-line);border-radius:var(--mc-radius);background:var(--mc-card);box-shadow:0 8px 24px rgba(30,55,90,.045)}
+.metric:after{content:"";position:absolute;right:-22px;top:-28px;width:92px;height:92px;border-radius:50%;background:linear-gradient(135deg,#e6f1ff,#e5fbfc);opacity:.9}
+.metric span{position:relative;z-index:1;display:block;color:var(--mc-muted);font-size:12px;font-weight:750;letter-spacing:.2px}
+.metric strong{position:relative;z-index:1;display:block;margin-top:8px;font-size:31px;line-height:1.15;letter-spacing:-.8px;color:#142b4d}
+.admin-tabs{display:flex;gap:7px;flex-wrap:wrap;padding:7px;margin:0 0 20px;border:1px solid var(--mc-line);border-radius:15px;background:#eaf0f8}
+.tab{padding:11px 16px;border:0;border-radius:10px;background:transparent;color:#52647d;font:inherit;font-size:13px;font-weight:750;cursor:pointer;transition:all .2s}
+.tab:hover{color:#155eef;background:#fff8}.tab.active{color:#155eef;background:#fff;box-shadow:0 3px 10px #263e5c12}
+.panel{padding:clamp(18px,2.5vw,30px);border:1px solid var(--mc-line);border-radius:20px;background:#fff;box-shadow:0 10px 30px rgba(30,55,90,.05);margin-bottom:20px}
+.section-heading{display:flex;align-items:center;justify-content:space-between;gap:18px;margin-bottom:23px}
+.section-heading p{margin-bottom:0}
+.form-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:17px 20px;margin-bottom:23px}
+.form-grid>div{min-width:0}.form-grid .span-two{grid-column:1/-1}
+label:not(.btn){display:block;margin-bottom:7px;color:#354b68;font-size:12px;font-weight:800}
+input,textarea,select{width:100%;min-width:0;padding:12px 13px;border:1px solid #d7e1ed;border-radius:10px;background:#fbfdff;color:#172b4d;font:inherit;font-size:14px;outline:none;transition:border-color .18s,box-shadow .18s,background .18s}
+input::placeholder,textarea::placeholder{color:#9aa8ba}
+input:focus,textarea:focus,select:focus{border-color:#6092f5;background:#fff;box-shadow:0 0 0 4px #155eef13}
+textarea{resize:vertical;min-height:120px}
+.form-actions{display:flex;align-items:end;gap:9px;flex-wrap:wrap}
+.history-search{display:flex;gap:10px;align-items:center;margin:20px 0 14px;flex-wrap:wrap}
+.history-search input{flex:1;min-width:190px}
+.table-wrap{width:100%;overflow:auto;border:1px solid var(--mc-line);border-radius:13px;background:#fff}
+table{width:100%;border-collapse:separate;border-spacing:0;min-width:650px;font-size:13px}
+thead th{padding:13px 15px;text-align:left;background:#f4f7fb;color:#60718a;font-size:11px;text-transform:uppercase;letter-spacing:.65px;font-weight:850;white-space:nowrap;border-bottom:1px solid var(--mc-line)}
+tbody td{padding:14px 15px;border-bottom:1px solid #edf1f6;color:#344761;vertical-align:middle}
+tbody tr:last-child td{border-bottom:0}tbody tr:hover td{background:#f8fbff}
+tbody td button,.performance-list button{cursor:pointer}
+.hidden{display:none!important}
+.performance-list{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:13px}
+.performance-detail{margin-top:20px;padding-top:20px;border-top:1px solid var(--mc-line)}
+.toast{position:fixed;right:22px;bottom:22px;z-index:50;max-width:min(440px,calc(100vw - 32px));padding:14px 18px;border-radius:12px;background:#172b4d;color:white;box-shadow:0 12px 35px #172b4d30;font-size:13px}
+footer{padding:24px;text-align:center;color:#8391a5;font-size:12px;border-top:1px solid var(--mc-line);background:#fff}
+@media(max-width:850px){.metric-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.welcome-row{align-items:flex-start;flex-direction:column}.admin-actions{width:100%}.admin-actions .btn{flex:1}.section-heading{align-items:flex-start;flex-direction:column}.performance-list{grid-template-columns:1fr}}
+@media(max-width:560px){.topbar{padding:11px 15px}.brand-name{font-size:15px}.logo-ring{width:40px;height:40px}.pill{font-size:10px;padding:7px 9px}.shell{padding:20px 13px}.metric-grid{gap:10px}.metric{padding:17px 15px;border-radius:14px}.metric strong{font-size:27px}.admin-tabs{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:5px}.tab{padding:10px 6px;font-size:12px}.panel{padding:17px 13px;border-radius:15px}.form-grid{grid-template-columns:1fr;gap:14px}.form-grid .span-two{grid-column:auto}.form-actions{align-items:stretch}.form-actions .btn{flex:1}.history-search{gap:8px}.history-search input{min-width:100%;flex-basis:100%}.history-search .btn{flex:1}.security-note{font-size:12px;padding:13px}.admin-actions .btn{font-size:12px;padding:10px 9px}}
+@media(prefers-reduced-motion:reduce){*,*:before,*:after{scroll-behavior:auto!important;transition:none!important;animation:none!important}}
+</style>
+
+</head>
+<body><header class="topbar"><a class="brand" href="admin.html"><span class="logo-ring"><i class="ring r1"></i><i class="ring r2"></i><span class="logo-core"><img class="brand-logo" src="logo.png" alt="MathCloud" onerror="this.closest('.brand').classList.add('no-logo')"><span class="brand-mark">M</span></span></span><span class="brand-name">MathCloud <small>FLUENCY ADMIN</small></span></a><span class="pill warning-pill">Admin workspace</span></header>
+<main class="shell admin-shell"><div class="welcome-row"><div><span class="eyebrow">CONTENT & LEARNER MANAGEMENT</span><h1>Admin console</h1><p class="muted">Manage learners, passages and reading performance.</p></div><div class="admin-actions"><button id="downloadTemplate" class="btn ghost">↓ Sample Excel</button><label class="btn primary upload-label">↑ Import Excel<input id="excelFile" type="file" accept=".xlsx,.xls,.csv" hidden></label></div></div>
+<div class="security-note"><b>Important:</b> This starter admin page has no login as requested. Do not publish it openly with write access to your live database. Anyone who can access it could manage students and passages. Before public deployment, protect admin writes with Firebase Authentication/custom claims or a trusted server.</div>
+<div class="metric-grid admin-metrics"><article class="metric"><span>Students</span><strong id="adminStudents">0</strong></article><article class="metric"><span>Passages</span><strong id="adminPassages">0</strong></article><article class="metric"><span>Sessions</span><strong id="adminSessions">0</strong></article><article class="metric"><span>Average score</span><strong id="adminAverage">—</strong></article></div>
+<div class="admin-tabs"><button class="tab active" data-tab="students">Students & passcodes</button><button class="tab" data-tab="passages">Passage library</button><button class="tab" data-tab="results">Session results</button><button class="tab" data-tab="performance">Cumulative performance</button></div>
+<section id="tab-students" class="panel admin-panel"><div class="section-heading"><div><h2>Manage students</h2><p class="muted">Create or update a learner and issue their passcode.</p></div></div><form id="studentForm" class="form-grid"><input id="studentId" type="hidden"><div><label for="studentNameInput">Student full name</label><input id="studentNameInput" required placeholder="e.g. Ada Okafor"></div><div><label for="studentPasscode">Passcode</label><input id="studentPasscode" required placeholder="e.g. READ2048"></div><div><label for="studentClass">Class / group</label><input id="studentClass" placeholder="e.g. Primary 5"></div><div class="form-actions"><button class="btn primary" type="submit">Save student</button><button class="btn ghost" type="reset" id="clearStudent">Clear</button></div></form><div class="history-search"><input id="studentSearch" placeholder="Search students by name, class or passcode"></div><div class="table-wrap"><table><thead><tr><th>Student</th><th>Passcode</th><th>Class</th><th>Actions</th></tr></thead><tbody id="studentsTable"><tr><td colspan="4">Loading…</td></tr></tbody></table></div></section>
+<section id="tab-passages" class="panel admin-panel hidden"><div class="section-heading"><div><h2>Passage library</h2><p class="muted">Add passages manually or import many at once using Excel.</p></div></div><form id="passageForm" class="form-grid"><input id="passageId" type="hidden"><div><label for="passageTitleInput">Passage title</label><input id="passageTitleInput" required placeholder="The Clever Tortoise"></div><div><label for="passageLevelInput">Level / class</label><input id="passageLevelInput" placeholder="Primary 4"></div><div class="span-two"><label for="passageBodyInput">Passage text</label><textarea id="passageBodyInput" rows="5" required placeholder="Paste the complete reading passage…"></textarea></div><div><label for="passageWordsInput">Target WPM (optional)</label><input id="passageWordsInput" type="number" min="1" placeholder="100"></div><div><label for="passageStatusInput">Status</label><select id="passageStatusInput"><option value="published">Published</option><option value="draft">Draft</option></select></div><div class="form-actions"><button class="btn primary" type="submit">Save passage</button><button class="btn ghost" type="reset" id="clearPassage">Clear</button></div></form><div class="table-wrap"><table><thead><tr><th>Title</th><th>Level</th><th>Words</th><th>Status</th><th>Actions</th></tr></thead><tbody id="passagesTable"><tr><td colspan="5">Loading…</td></tr></tbody></table></div></section>
+<section id="tab-results" class="panel admin-panel hidden"><div class="section-heading"><div><h2>Reading session results</h2><p class="muted">Review individual metrics and download a CSV report.</p></div><button id="exportResults" class="btn ghost">↓ Export results CSV</button></div><div class="history-search"><input id="resQ" placeholder="Search a day, student or passage"><input type="date" id="resDay" aria-label="Pick a day"><button class="btn ghost" id="resClear">Clear</button></div><div class="table-wrap"><table><thead><tr><th>Date</th><th>Student</th><th>Passage</th><th>WPM</th><th>Accuracy</th><th>Pronunciation</th><th>Overall</th><th>Details</th></tr></thead><tbody id="resultsTable"><tr><td colspan="8">Loading…</td></tr></tbody></table></div></section>
+<section id="tab-performance" class="panel admin-panel hidden"><div class="section-heading"><div><h2>Student performance explorer</h2><p class="muted">Open a learner to review cumulative progress and every individual reading session, then print or save a PDF report.</p></div></div><div class="form-grid"><div><label for="performanceStudentFilter">Find student</label><input id="performanceStudentFilter" placeholder="Type a student name or class"></div></div><div id="studentPerformanceList" class="performance-list"></div><div id="performanceDetail" class="performance-detail hidden"></div></section><div id="adminToast" class="toast hidden" role="status"></div></main><footer>MathCloud Reading Fluency Admin</footer>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-database-compat.js"></script><script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script><script src="firebase-config.js"></script><script src="history.js"></script><script src="admin.js"></script><script>
+/* =========================================
+   WEBSITE PROTECTION
+   Blocks common browser shortcuts/devtools
+   ========================================= */
+
+(function () {
+    "use strict";
+
+    // Disable right-click
+    document.addEventListener("contextmenu", function (e) {
+        e.preventDefault();
+        return false;
+    });
+
+    // Disable common keyboard shortcuts
+    document.addEventListener("keydown", function (e) {
+        const key = e.key.toLowerCase();
+
+        // F12
+        if (e.key === "F12") {
+            e.preventDefault();
+            e.stopPropagation();
+            return false;
+        }
+
+        // Ctrl shortcuts
+        if (e.ctrlKey) {
+
+            // Ctrl + U = View Source
+            if (key === "u") {
+                e.preventDefault();
+                e.stopPropagation();
+                return false;
+            }
+
+            // Ctrl + S = Save Page
+            if (key === "s") {
+                e.preventDefault();
+                e.stopPropagation();
+                return false;
+            }
+
+            // Ctrl + P = Print
+            if (key === "p") {
+                e.preventDefault();
+                e.stopPropagation();
+                return false;
+            }
+
+            // Ctrl + C = Copy
+            if (key === "c") {
+                e.preventDefault();
+                e.stopPropagation();
+                return false;
+            }
+
+            // Ctrl + X = Cut
+            if (key === "x") {
+                e.preventDefault();
+                e.stopPropagation();
+                return false;
+            }
+
+            // Ctrl + A = Select All
+            if (key === "a") {
+                e.preventDefault();
+                e.stopPropagation();
+                return false;
+            }
+
+            // Ctrl + Shift + I = Developer Tools
+            if (e.shiftKey && key === "i") {
+                e.preventDefault();
+                e.stopPropagation();
+                return false;
+            }
+
+            // Ctrl + Shift + J = Console
+            if (e.shiftKey && key === "j") {
+                e.preventDefault();
+                e.stopPropagation();
+                return false;
+            }
+
+            // Ctrl + Shift + C = Inspect Element
+            if (e.shiftKey && key === "c") {
+                e.preventDefault();
+                e.stopPropagation();
+                return false;
+            }
+        }
+
+        // F1 / F3 / F6 / F10 / F11
+        if (
+            e.key === "F1" ||
+            e.key === "F3" ||
+            e.key === "F6" ||
+            e.key === "F10" ||
+            e.key === "F11"
+        ) {
+            e.preventDefault();
+            e.stopPropagation();
+            return false;
+        }
+
+        // Shift + F10 = Context Menu
+        if (e.shiftKey && e.key === "F10") {
+            e.preventDefault();
+            e.stopPropagation();
+            return false;
+        }
+    }, true);
+
+    // Disable text selection
+    document.addEventListener("selectstart", function (e) {
+        e.preventDefault();
+        return false;
+    });
+
+    // Disable dragging images/elements
+    document.addEventListener("dragstart", function (e) {
+        e.preventDefault();
+        return false;
+    });
+
+    // Disable copy
+    document.addEventListener("copy", function (e) {
+        e.preventDefault();
+        return false;
+    });
+
+    // Disable cut
+    document.addEventListener("cut", function (e) {
+        e.preventDefault();
+        return false;
+    });
+
+    // Disable paste if desired
+    document.addEventListener("paste", function (e) {
+        // Comment this section out if users need to paste
+        e.preventDefault();
+        return false;
+    });
+
+})();
+</script></body></html>

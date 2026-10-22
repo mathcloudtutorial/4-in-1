@@ -1,0 +1,66 @@
+{
+  "rules": {
+    "comprehension": {
+      "access": {
+        "admins": {
+          "$uid": {
+            ".read": "auth != null && (auth.uid === $uid || root.child('comprehension/access/admins').child(auth.uid).child('active').val() === true)",
+            ".write": "auth != null && ((!root.child('comprehension/access/admins').exists() && auth.uid === $uid) || root.child('comprehension/access/admins').child(auth.uid).child('active').val() === true)",
+            ".validate": "!newData.exists() || (newData.hasChildren(['active']) && newData.child('active').val() === true)"
+          }
+        },
+        "adminProfiles": {
+          "$uid": {
+            ".read": "auth != null && (auth.uid === $uid || root.child('comprehension/access/admins').child(auth.uid).child('active').val() === true)",
+            ".write": "auth != null && root.child('comprehension/access/admins').child(auth.uid).child('active').val() === true"
+          }
+        }
+      },
+      "classes": {
+        ".read": "auth != null && root.child('comprehension/access/admins').child(auth.uid).child('active').val() === true",
+        ".write": "auth != null && root.child('comprehension/access/admins').child(auth.uid).child('active').val() === true"
+      },
+      "students": {
+        ".indexOn": [
+          "classId",
+          "email"
+        ],
+        "$uid": {
+          ".read": "auth != null && (auth.uid === $uid || root.child('comprehension/access/admins').child(auth.uid).child('active').val() === true)",
+          ".write": "auth != null && root.child('comprehension/access/admins').child(auth.uid).child('active').val() === true"
+        },
+        ".read": "auth != null && root.child('comprehension/access/admins').child(auth.uid).child('active').val() === true"
+      },
+      "deviceLocks": {
+        "$uid": {
+          ".read": "auth != null && (auth.uid === $uid || root.child('comprehension/access/admins').child(auth.uid).child('active').val() === true)",
+          ".write": "auth != null && (root.child('comprehension/access/admins').child(auth.uid).child('active').val() === true || (auth.uid === $uid && ((!data.exists() && newData.child('unlocked').val() === false) || data.child('unlocked').val() === true || (data.child('deviceId').val() === newData.child('deviceId').val() && newData.child('unlocked').val() === false))))",
+          ".validate": "!newData.exists() || newData.hasChildren(['unlocked', 'updatedAt'])"
+        }
+      },
+      "passages": {
+        ".indexOn": [
+          "classId",
+          "studentId",
+          "status"
+        ],
+        "$pid": {
+          ".read": "auth != null && (root.child('comprehension/access/admins').child(auth.uid).child('active').val() === true || data.child('studentId').val() === auth.uid || (data.child('classId').exists() && root.child('comprehension/students').child(auth.uid).child('classId').val() === data.child('classId').val()))",
+          ".write": "auth != null && root.child('comprehension/access/admins').child(auth.uid).child('active').val() === true"
+        },
+        ".read": "auth != null && (root.child('comprehension/access/admins').child(auth.uid).child('active').val() === true || (query.orderByChild === 'classId' && (query.equalTo === root.child('comprehension/students').child(auth.uid).child('classId').val() || query.equalTo === 'all')) || (query.orderByChild === 'studentId' && query.equalTo === auth.uid))"
+      },
+      "sessions": {
+        ".indexOn": [
+          "studentId",
+          "completedAt"
+        ],
+        "$sid": {
+          ".read": "auth != null && (root.child('comprehension/access/admins').child(auth.uid).child('active').val() === true || data.child('studentId').val() === auth.uid)",
+          ".write": "auth != null && (root.child('comprehension/access/admins').child(auth.uid).child('active').val() === true || (newData.child('studentId').val() === auth.uid && !data.exists()))"
+        },
+        ".read": "auth != null && (root.child('comprehension/access/admins').child(auth.uid).child('active').val() === true || (query.orderByChild === 'studentId' && query.equalTo === auth.uid))"
+      }
+    }
+  }
+}

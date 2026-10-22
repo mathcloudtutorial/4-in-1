@@ -1,0 +1,43 @@
+{
+  "rules": {
+    ".read": false,
+    ".write": false,
+    "access": {
+      "admins": {
+        ".read": "auth != null && root.child('access/admins').child(auth.uid).val() === true",
+        "$uid": {
+          ".write": "auth != null && auth.uid === $uid && !root.child('access/admins').exists() && newData.val() === true",
+          ".validate": "newData.isBoolean() && newData.val() === true"
+        }
+      },
+      "adminProfiles": {
+        "$uid": {
+          ".read": "auth != null && root.child('access/admins').child(auth.uid).val() === true",
+          ".write": "auth != null && root.child('access/admins').child(auth.uid).val() === true"
+        }
+      }
+    },
+    "mathQuiz": {
+      ".read": "auth != null && root.child('access/admins').child(auth.uid).val() === true",
+      ".write": "auth != null && root.child('access/admins').child(auth.uid).val() === true",
+      "students": {
+        "$studentId": {
+          ".read": "auth != null && (root.child('access/admins').child(auth.uid).val() === true || auth.uid === $studentId)",
+          ".write": "auth != null && root.child('access/admins').child(auth.uid).val() === true"
+        }
+      },
+      "deviceLocks": {
+        "$studentId": {
+          ".read": "auth != null && (root.child('access/admins').child(auth.uid).val() === true || auth.uid === $studentId)",
+          ".write": "auth != null && root.child('access/admins').child(auth.uid).val() === true"
+        }
+      },
+      "sessions": {
+        "$id": {
+          ".read": "auth != null && (root.child('access/admins').child(auth.uid).val() === true || data.child('studentId').val() === auth.uid)",
+          ".write": "auth != null && (root.child('access/admins').child(auth.uid).val() === true || newData.child('studentId').val() === auth.uid)"
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,46 @@
+{
+  "rules": {
+    ".read": false,
+    ".write": false,
+    "mathQuiz": {
+      "classes": {
+        ".read": true,
+        ".write": true
+      },
+      "students": {
+        ".read": true,
+        ".write": true,
+        ".indexOn": [
+          "passcodeKey"
+        ]
+      },
+      "questions": {
+        ".read": true,
+        ".write": true,
+        ".indexOn": [
+          "classId",
+          "demo"
+        ]
+      },
+      "assignments": {
+        ".read": true,
+        ".write": true
+      },
+      "sessions": {
+        ".read": true,
+        ".write": true,
+        ".indexOn": [
+          "studentId",
+          "completedAt"
+        ],
+        "$id": {
+          ".validate": "newData.hasChildren(['studentId','score','total','correct','completedAt']) && newData.child('score').isNumber() && newData.child('score').val() >= 0 && newData.child('score').val() <= 100 && newData.child('total').isNumber() && newData.child('total').val() > 0 && newData.child('correct').isNumber() && newData.child('correct').val() <= newData.child('total').val()"
+        }
+      },
+      "sessionAnswers": {
+        ".read": true,
+        ".write": true
+      }
+    }
+  }
+}

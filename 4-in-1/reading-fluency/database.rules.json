@@ -1,0 +1,22 @@
+{
+  "rules": {
+    ".read": false,
+    ".write": false,
+    "readingFluency": {
+      ".read": false,
+      ".write": false
+    },
+    "mathQuiz": {
+      ".read": false,
+      ".write": false
+    },
+    "readingComprehension": {
+      ".read": false,
+      ".write": false
+    },
+    "readingFluencyBee": {
+      ".read": false,
+      ".write": false
+    }
+  }
+}
